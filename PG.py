@@ -15,7 +15,7 @@ def sample_trajectory(e, batch_size, model):
         current_rewards = []
         current_actions = []
         while True:
-            action = torch.argmax(model(torch.from_numpy(ob).cuda()), -1).item()
+            action = torch.distributions.categorical.Categorical(logits=model(torch.from_numpy(ob).cuda()), -1).sample().item()
             ob, reward, done, _ = e.step(action)
             current_rewards.append(reward)
             current_actions.append(action)
